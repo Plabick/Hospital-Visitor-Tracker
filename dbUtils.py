@@ -37,8 +37,7 @@ def contactTracePatient(pfn, pln):
     # Return visitors who visited  patient in the last 14 days
     pfn = repr(pfn).replace(" ", "")
     pln = repr(pln).replace(" ", "")
-    #pfn = cleanString(pfn)
-    #pln = cleanString(pln)
+
     print("contactTracePatient called")
     query = f"select visitor_name from visit join visitor using (visitor_id) join patient using (patient_id) where " \
             f"patient_first_name ={pfn} and patient_last_name ={pln}; "
@@ -52,22 +51,19 @@ def contactTracePatient(pfn, pln):
 
 def contactTraceVisitor(vfn, vln):
     # Return screeners, patients, and visitors who interacted with visitor in the last 14 days
-    print("contactTracePatient called")
     # Return visitors who visited  patient in the last 14 days
-    pfn = repr(vfn).replace(" ", "")
-    pln = repr(vln).replace(" ", "")
-    # pfn = cleanString(pfn)
-    # pln = cleanString(pln)
+
     print("contactTraceVisitor called")
+
     query = f"select patient_first_name, patient_last_name from visit join visitor using (visitor_id) join patient " \
             f"using (patient_id) where " \
             f"visitor_name like \"{vfn} {vln}\";"
-    print (query)
-    mycursor.execute(query)
+
     result = "\nPatients:\n"
+
+    mycursor.execute(query)
     for (x) in mycursor:
         result += f"{cleanString(repr(x))}\n"
-
 
     result += "\nScreeners:\n"
     query = f"select screener_name from visit join visitor using (visitor_id) join patient " \

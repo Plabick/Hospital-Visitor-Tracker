@@ -12,12 +12,12 @@ def contractTrace():
                                                        f"in the last 14 days\n{message}")
 
     def contractTracePatient():
-        print(f"contract tracing for patient {pfn.get()} {pln.get()}")
+        print(f"Contract tracing for patient {pfn.get()} {pln.get()}")
         message = contactTracePatient(pfn.get(), pln.get())
         messagebox.showinfo("Contract Tracing Report", f"The following people had contact with {vfn.get()} {vln.get()} "
                                                        f"in the last 14 days\n{message}")
 
-        ## do the query
+
 
     master = tk.Tk()
     master.title("ContractTracing")
