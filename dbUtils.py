@@ -27,6 +27,9 @@ def addVisitor(pfn, pln, vfn, vln, exposure, oos, symptoms, screener):
 
 def getDirections(vfn, vln):
     # Return location of patient connected to visitor or error
+    name = f"{vfn} {vln}"
+    mycursor.execute("")
+
     print("get directions called")
 
 

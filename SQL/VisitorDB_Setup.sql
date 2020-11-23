@@ -98,5 +98,28 @@ values
 (2,"Sick Man"), -- shouldn't be allowed in to due answer
 (3,"Visit Again"); -- shouldn't be allowed in due to 2nd visitor of day for given patient
 
--- Need Inserts for visitor_has_answer
  
+ insert into visitor_has_answer
+ (visitor_id, date, question_id, visitor_answer)
+ values
+ (1,DATE("2020-11-23"), 1, false), -- jo mama's answers
+ (1,DATE("2020-11-23"), 2, false),
+ (1,DATE("2020-11-23"), 3, false),
+ (2,DATE("2020-11-23"), 1, false), -- Sick Man's answers
+ (2,DATE("2020-11-23"), 2, false),
+ (2,DATE("2020-11-23"), 3, true), -- Sick Man is sick
+ (3,DATE("2020-11-23"), 1, false), -- Visit Again's answers
+ (3,DATE("2020-11-23"), 2, false),
+ (3,DATE("2020-11-23"), 3, false);
+
+
+insert into visit
+(visit_id, patient_id , screener_id , visitor_id, visit_date, visit_start , visit_end, let_in)
+values
+(1,1,1,1,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true);
+
+ -- Test query 
+ select patient_building, patient_room 
+ from visit
+ join visitor using (visitor_id)
+ join patient using (patient_id);
