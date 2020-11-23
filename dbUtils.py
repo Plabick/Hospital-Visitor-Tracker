@@ -9,10 +9,9 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
+
 ## Test of DB connection
-mycursor.execute("SHOW TABLES")
-for x in mycursor:
-    print(x)
+# mycursor.execute("SHOW TABLES")
 
 
 def addVisitor(pfn, pln, vfn, vln, exposure, oos, symptoms, screener):
@@ -28,9 +27,10 @@ def addVisitor(pfn, pln, vfn, vln, exposure, oos, symptoms, screener):
 def getDirections(vfn, vln):
     # Return location of patient connected to visitor or error
     name = f"{vfn} {vln}"
-    mycursor.execute("")
+    mycursor.execute(f" select patient_building, patient_room from visit join visitor using (visitor_id) join patient "
+                     f"using (patient_id) where visitor_name =\"{name}\";")
 
-    print("get directions called")
+    return cleanString(repr(mycursor.next()))
 
 
 def contactTracePatient(pfn, pln):
@@ -51,3 +51,8 @@ def wrongPersonAdmitted(efn, eln):  # employee first name, last name
 def avgTimeToScreen(efn, eln):  # employee first name, last name
     # return Avg time visitors spend in lobby connected to given screener
     print("avgTimeToScreen called")
+
+# Utility method to clean the given query result into a string
+def cleanString(str):
+    str = str.replace('(', '').replace(')', '').replace(',', '').replace('\'', '')
+    return str

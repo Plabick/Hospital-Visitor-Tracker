@@ -1,10 +1,15 @@
 import tkinter as tk
+from tkinter import messagebox
+
+import dbUtils as db
 
 
 def giveDirections():
     def findDirections():
         print(f"finding directions for {vfn.get()} {vln.get()}")
-        ## do the query
+        message = db.getDirections(vfn.get(), vln.get())
+        messagebox.showinfo("Directions", f"{vfn.get()} {vln.get()} is going to {message}")
+        master.destroy()  # close window once directions given
 
     master = tk.Tk()
     master.title("Visitor Directions")
