@@ -1,12 +1,25 @@
 import tkinter as tk
+from tkinter import messagebox
+
+import dbUtils as db
 
 
 def visitorWindow():
-    def addVistor():
-        print("VISITOR\nFirst Name: %s\nLast Name: %s" % (vfn.get(), vln.get()))
-        print("PATIENT\nFirst Name: %s\nLast Name: %s" % (pfn.get(), pln.get()))
-        ##Add the visitor or return an error
+    def quit():
         master.destroy()  # Exit Window
+
+    def addVistor():
+        # Add the visitor or return an error
+
+        # pfn, pln, vfn, vln, exposure, oos, symptoms, screenerID
+        message = db.addVisitor(pfn.get(), pln.get(), vfn.get(), vln.get(), False, False, False, 1)
+
+        if message == False:
+            messagebox.showerror("Do Not Admit", f"{vfn.get()} {vln.get()} can not visit {pfn.get()} {pln.get()} today")
+        else:
+            messagebox.showinfo("Visit Approved",
+                                f"{vfn.get()} {vln.get()} is approved to visit {pfn.get()} {pln.get()} today"
+                                f".\nLocation: {message}")
 
     master = tk.Tk()
     master.title("Add Visitor")
@@ -33,13 +46,14 @@ def visitorWindow():
     pfn = tk.Entry(master)  # patient first name
     pln = tk.Entry(master)  # patient last name
 
+    tk.Button(master, text="Quit", command=quit).grid(row=7, column=1)
     tk.Button(master, text="Add", command=addVistor).grid(row=7)
-    var1 = tk.IntVar()
-    oos = tk.Checkbutton(master, variable=var1)
-    var2 = tk.IntVar()
-    symptoms = tk.Checkbutton(master, variable=var2)
-    var3 = tk.IntVar()
-    exposure = tk.Checkbutton(master, variable=var3)
+    oosVar = tk.IntVar()
+    oos = tk.Checkbutton(master, variable=oosVar)
+    symptomsVar = tk.IntVar()
+    symptoms = tk.Checkbutton(master, variable=symptomsVar)
+    exposureVar = tk.IntVar()
+    exposure = tk.Checkbutton(master, variable=exposureVar)
 
     vfn.grid(row=0, column=1)
     vln.grid(row=1, column=1)

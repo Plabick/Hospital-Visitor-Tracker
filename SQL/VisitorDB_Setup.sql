@@ -1,4 +1,6 @@
-
+-- To use the python code as is, plz set up your system like this
+-- USER: visitorDBUser
+-- PASSWORD: password
 CREATE SCHEMA IF NOT EXISTS visitorDB;
 use visitorDB;
 
