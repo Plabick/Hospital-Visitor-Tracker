@@ -1,24 +1,9 @@
--- MySQL Workbench Forward Engineering
 
--- SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
--- SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
--- SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+CREATE SCHEMA IF NOT EXISTS visitorDB;
+use visitorDB;
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS mydb DEFAULT CHARACTER SET utf8 ;
-use mydb;
-
--- -----------------------------------------------------
--- Table patient
--- -----------------------------------------------------
 DROP TABLE IF EXISTS patient;
-
 CREATE TABLE IF NOT EXISTS patient (
   patient_id INT NOT NULL,
   patient_name VARCHAR(50) NOT NULL,
@@ -30,33 +15,24 @@ CREATE TABLE IF NOT EXISTS patient (
   patient_room INT NULL,
   PRIMARY KEY (patient_id));
 
--- -----------------------------------------------------
--- Table visitor
--- -----------------------------------------------------
-DROP TABLE IF EXISTS visitor ;
 
+DROP TABLE IF EXISTS visitor ;
 CREATE TABLE IF NOT EXISTS visitor (
   visitor_id INT NOT NULL,
   visitor_name VARCHAR(50) NOT NULL,
   let_in TINYINT NOT NULL,
   PRIMARY KEY (visitor_id));
 
--- -----------------------------------------------------
--- Table screener
--- -----------------------------------------------------
-DROP TABLE IF EXISTS screener ;
 
+DROP TABLE IF EXISTS screener ;
 CREATE TABLE IF NOT EXISTS screener (
   screener_id INT NOT NULL,
   screener_name VARCHAR(50) NOT NULL,
   screener_station INT NOT NULL,
   PRIMARY KEY (screener_id));
 
--- -----------------------------------------------------
--- Table visit
--- -----------------------------------------------------
-DROP TABLE IF EXISTS visit ;
 
+DROP TABLE IF EXISTS visit ;
 CREATE TABLE IF NOT EXISTS visit (
   visit_id INT NOT NULL,
   patient_id INT NOT NULL,
@@ -70,22 +46,16 @@ CREATE TABLE IF NOT EXISTS visit (
   FOREIGN KEY (screener_id) REFERENCES screener (screener_id),
   FOREIGN KEY (visitor_id) REFERENCES visitor (visitor_id));
 
--- -----------------------------------------------------
--- Table question
--- -----------------------------------------------------
-DROP TABLE IF EXISTS question ;
 
+DROP TABLE IF EXISTS question ;
 CREATE TABLE IF NOT EXISTS question (
   question_id INT NOT NULL,
   question_text VARCHAR(255) NOT NULL UNIQUE,
   question_correct_answer VARCHAR(255) NOT NULL,
   PRIMARY KEY (question_id));
 
--- -----------------------------------------------------
--- Table visitor_has_answer
--- -----------------------------------------------------
-DROP TABLE IF EXISTS visitor_has_answer ;
 
+DROP TABLE IF EXISTS visitor_has_answer ;
 CREATE TABLE IF NOT EXISTS visitor_has_answer (
   visitor_id INT NOT NULL,
   date DATETIME NOT NULL,
