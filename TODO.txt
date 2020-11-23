@@ -10,7 +10,6 @@ To Do (as of 11/23/2020)
     - select people in the lobby at the same time as visitor
     - select visitors had by a patient
     - select patient location given patient name
-    - select patient location given visitor name
     - select avg screening speed of a screener
     - select num people let in by screener where canVisit == false and letIn = true
 3) Implement methods in dbUtils using the new queries as a base

@@ -1,13 +1,22 @@
 import tkinter as tk
+from tkinter import messagebox
+
+from dbUtils import contactTracePatient, contactTraceVisitor
 
 
 def contractTrace():
     def contractTraceVisitor():
         print(f"contract tracing for visitor {vfn.get()} {vln.get()}")
-        ## do the query
+        message = contactTraceVisitor(vfn.get(), vln.get())
+        messagebox.showinfo("Contract Tracing Report", f"The following people had contact with {pfn.get()} {pln.get()} "
+                                                       f"in the last 14 days\n{message}")
 
     def contractTracePatient():
         print(f"contract tracing for patient {pfn.get()} {pln.get()}")
+        message = contactTracePatient(pfn.get(), pln.get())
+        messagebox.showinfo("Contract Tracing Report", f"The following people had contact with {vfn.get()} {vln.get()} "
+                                                       f"in the last 14 days\n{message}")
+
         ## do the query
 
     master = tk.Tk()
@@ -16,7 +25,7 @@ def contractTrace():
     tk.Label(master, text="Visitor First Name").grid(row=0)
     tk.Label(master, text="Visitor Last Name").grid(row=1)
     tk.Label(master, text="OR").grid(row=2)
-    tk.Label(master, text="Patient Last Name").grid(row=3)
+    tk.Label(master, text="Patient First Name").grid(row=3)
     tk.Label(master, text="Patient Last Name").grid(row=4)
 
     vfn = tk.Entry(master)  # visitor first name

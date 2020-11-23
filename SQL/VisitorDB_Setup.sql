@@ -119,7 +119,7 @@ values
 (1,1,1,1,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true);
 
  -- Test query 
- select patient_building, patient_room 
- from visit
- join visitor using (visitor_id)
- join patient using (patient_id);
+ select patient_building, patient_room from visit join visitor using (visitor_id) join patient using (patient_id) where visitor_name ="Joe Mamma";
+ select visitor_name from visit join visitor using (visitor_id) join patient using (patient_id) where patient_first_name ="<tkinter.Entryobject.!entry3>" and patient_last_name ="<tkinter.Entryobject.!entry4>"; 
+
+select patient_first_name, patient_last_name from visit join visitor using (visitor_id) join patient using (patient_id) where visitor_name like "Joe Mamma"; 
