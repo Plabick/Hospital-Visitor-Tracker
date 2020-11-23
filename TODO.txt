@@ -2,9 +2,17 @@ To Do (as of 11/23/2020)
 
 1) Populate DB with information via insert statements in the setup file
 2) Write SQL queries for methods in dbUtils
-    - Check if patient can recive visitors (no covid, no contact, visitor limit not reached)
+    - Check if patient can receive visitors (no covid, no contact, visitor limit not reached)
     - Check if visitor can visit (3 screening questions all have False as the answer)
-    -
+    - Add visitor to db
+    - Add visit to db
+    - select patients visited by a vistor
+    - select people in the lobby at the same time as visitor
+    - select vistitors had by a patient
+    - select patient location given patient name
+    - select patient location given visitor name
+    - select avg screening speed of a screener
+    - select num people let in my screener where canVisit == false and letIn = true
 3) Implement methods in dbUtils using the new queries as a base
 4) Make window methods spawn a popup box using the data from the dbUtil methods
     -visitorWindow already done as a test
