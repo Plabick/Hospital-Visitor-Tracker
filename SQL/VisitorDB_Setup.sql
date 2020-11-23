@@ -1,19 +1,20 @@
 -- To use the python code as is, plz set up your system like this
 -- USER: visitorDBUser
 -- PASSWORD: password
-CREATE SCHEMA IF NOT EXISTS visitorDB;
+drop schema if exists visitorDB;
+CREATE SCHEMA visitorDB;
 use visitorDB;
-
 
 DROP TABLE IF EXISTS patient;
 CREATE TABLE IF NOT EXISTS patient (
   patient_id INT NOT NULL,
-  patient_name VARCHAR(50) NOT NULL,
-  patient_dob DATE NOT NULL,
+  patient_first_name VARCHAR(50) NOT NULL,
+  patient_last_name VARCHAR(50) NOT NULL,
+  patient_dob DATE,
   patient_classification ENUM("inpatient", "outpatient", "icu", "er", "ob") NOT NULL,
   patient_precaution ENUM("none", "contact", "airborne") NOT NULL,
   patient_eol TINYINT NOT NULL,
-  patient_building ENUM("tower", "cwn", "shapiro", "hale") NULL,
+  patient_building ENUM("Tower", "CWN", "Shapiro", "Hale") NULL,
   patient_room INT NULL,
   PRIMARY KEY (patient_id));
 
@@ -22,7 +23,6 @@ DROP TABLE IF EXISTS visitor ;
 CREATE TABLE IF NOT EXISTS visitor (
   visitor_id INT NOT NULL,
   visitor_name VARCHAR(50) NOT NULL,
-  let_in TINYINT NOT NULL,
   PRIMARY KEY (visitor_id));
 
 
@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS visit (
   visit_date DATETIME NOT NULL,
   visit_start TIME NOT NULL,
   visit_end TIME NOT NULL,
+  let_in tinyint NOT NULL,
   PRIMARY KEY (visit_id),
   FOREIGN KEY (patient_id) REFERENCES patient (patient_id),
   FOREIGN KEY (screener_id) REFERENCES screener (screener_id),
@@ -52,8 +53,8 @@ CREATE TABLE IF NOT EXISTS visit (
 DROP TABLE IF EXISTS question ;
 CREATE TABLE IF NOT EXISTS question (
   question_id INT NOT NULL,
-  question_text VARCHAR(255) NOT NULL UNIQUE,
-  question_correct_answer VARCHAR(255) NOT NULL,
+  question_text varchar(255) NOT NULL UNIQUE,
+  question_correct_answer tinyint NOT NULL,
   PRIMARY KEY (question_id));
 
 
@@ -62,8 +63,40 @@ CREATE TABLE IF NOT EXISTS visitor_has_answer (
   visitor_id INT NOT NULL,
   date DATETIME NOT NULL,
   question_id INT NOT NULL,
-  visitor_answer VARCHAR(255) NOT NULL,
+  visitor_answer tinyint NOT NULL,
   FOREIGN KEY (visitor_id) REFERENCES visitor (visitor_id),
   FOREIGN KEY (question_id)REFERENCES question (question_id));
   
+-- INSERTS
+insert into question
+(question_id, question_text, question_correct_answer) 
+values
+(1,"In the last 14 days, have you traveled out of state?", false),
+(2,"In the last 14 days, have you been exposure to anyone with covid-19?", false),
+(3,"Are you experiencing any symptoms of covid-19?", false);
 
+insert into screener
+(screener_id, screener_name, screener_station)
+values
+ (1,"Peter Labick",1),
+ (2,"Marla Davis",2),
+ (3,"Tommy Nelson",2); -- Shares a desk (for contact tracing)
+ 
+
+insert into patient
+(patient_id, patient_first_name, patient_last_name, patient_classification, patient_precaution , patient_eol, patient_building , patient_room )
+values
+(1, "Normal", "Dude", "inpatient", "none", false, "Tower", 614), -- normal patient
+(2, "Joe", "Mama", "inpatient", "none", false, "Shapiro", 411), -- normal patient
+(3, "Can't", "Smell", "inpatient", "airborne", false, "CWN", 523), -- No visitors due to airborne precautions
+(4, "No", "Limits", "inpatient", "none", true, "Tower", 723); -- No visitor limit due to EOL
+
+insert into visitor
+(visitor_id, visitor_name)
+values
+(1,"Joe Mamma"),
+(2,"Sick Man"), -- shouldn't be allowed in to due answer
+(3,"Visit Again"); -- shouldn't be allowed in due to 2nd visitor of day for given patient
+
+-- Need Inserts for visitor_has_answer
+ 
