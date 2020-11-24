@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from dbUtils import canHaveVisitor
 
 import dbUtils as db
 
@@ -11,15 +12,16 @@ def visitorWindow():
     def addVistor():
         # Add the visitor or return an error
 
-        # pfn, pln, vfn, vln, exposure, oos, symptoms, screenerID
-        message = db.addVisitor(pfn.get(), pln.get(), vfn.get(), vln.get(), False, False, False, 1)
+        if(canHaveVisitor(pfn.get(),pln.get())):
+         # pfn, pln, vfn, vln, exposure, oos, symptoms, screenerID
+             message = db.addVisitor(pfn.get(), pln.get(), vfn.get(), vln.get(), False, False, False, 1)
 
-        if message == False:
-            messagebox.showerror("Do Not Admit", f"{vfn.get()} {vln.get()} can not visit {pfn.get()} {pln.get()} today")
-        else:
-            messagebox.showinfo("Visit Approved",
+             messagebox.showinfo("Visit Approved",
                                 f"{vfn.get()} {vln.get()} is approved to visit {pfn.get()} {pln.get()} today"
                                 f".\nLocation: {message}")
+        else:
+            messagebox.showerror("Do Not Admit", f"{vfn.get()} {vln.get()} can not visit {pfn.get()} {pln.get()} today")
+
 
     master = tk.Tk()
     master.title("Add Visitor")

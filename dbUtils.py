@@ -19,9 +19,20 @@ def addVisitor(pfn, pln, vfn, vln, exposure, oos, symptoms, screener):
     # First check if visitor is eligible to visit
     # Then check if patient can receive visitor
     # Add a visit to the visit db if possible
-    # Return "Unable to enter due to {reason}" or "Cleared to enter, go to {location}"
-    print("addVisitor called")
+    # Return destination {location}"
     return "TEST LOCATION"
+
+def canHaveVisitor(pfn,pln):
+   query = f"select patient_eol = true or patient_precaution = \"none\" from patient " \
+           f"where patient_first_name = \"{pfn}\" and patient_last_name = \"{pln}\";"
+
+   mycursor.execute(query)
+
+   for(x) in mycursor:
+    result = x
+    x = cleanString(repr(x))
+    return eval(x)
+
 
 
 def getDirections(vfn, vln):
@@ -41,7 +52,7 @@ def contactTracePatient(pfn, pln):
     print("contactTracePatient called")
     query = f"select visitor_name from visit join visitor using (visitor_id) join patient using (patient_id) where " \
             f"patient_first_name ={pfn} and patient_last_name ={pln}; "
-    mycursor.execute(query);
+    mycursor.execute(query)
     result = "Visitors:\n"
     for (x) in mycursor:
         result += f"{cleanString(repr(x))}\n"
@@ -50,8 +61,7 @@ def contactTracePatient(pfn, pln):
 
 
 def contactTraceVisitor(vfn, vln):
-    # Return screeners, patients, and visitors who interacted with visitor in the last 14 days
-    # Return visitors who visited  patient in the last 14 days
+    # Return screeners and patients who interacted with the given visitor in the last 14 days
 
     print("contactTraceVisitor called")
 
@@ -70,7 +80,7 @@ def contactTraceVisitor(vfn, vln):
             f"using (patient_id) join screener using (screener_id) where " \
             f"visitor_name = \"{vfn} {vln}\"; "
 
-    mycursor.execute(query);
+    mycursor.execute(query)
     for (x) in mycursor:
         result += f"{cleanString(repr(x))}\n"
 

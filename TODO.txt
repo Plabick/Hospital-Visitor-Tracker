@@ -2,7 +2,6 @@ To Do (as of 11/23/2020)
 
 1) Populate DB with information via insert statements in the setup file
 2) Write SQL queries for methods in dbUtils
-    - Check if patient can receive visitors (no covid, no contact, visitor limit not reached)
     - Check if visitor can visit (3 screening questions all have False as the answer)
     - Add visitor to db
     - Add visit to db

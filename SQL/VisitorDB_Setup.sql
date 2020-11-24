@@ -123,3 +123,5 @@ values
  select visitor_name from visit join visitor using (visitor_id) join patient using (patient_id) where patient_first_name ="<tkinter.Entryobject.!entry3>" and patient_last_name ="<tkinter.Entryobject.!entry4>"; 
 
 select patient_first_name, patient_last_name from visit join visitor using (visitor_id) join patient using (patient_id) where visitor_name like "Joe Mamma"; 
+
+select patient_eol = true or patient_precaution="none" from patient where patient_first_name = "Joe" and patient_last_name = "Mamma";
