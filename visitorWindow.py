@@ -11,7 +11,6 @@ def visitorWindow():
 
     def addVistor():
         # Add the visitor or return an error
-
         if(canHaveVisitor(pfn.get(),pln.get())):
          # pfn, pln, vfn, vln, exposure, oos, symptoms, screenerID
              message = db.addVisitor(pfn.get(), pln.get(), vfn.get(), vln.get(), False, False, False, 1)

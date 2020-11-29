@@ -1,10 +1,16 @@
 import tkinter as tk
+from tkinter import messagebox
+
+from dbUtils import wrongPersonAdmitted
 
 
 def performanceReview():
     def checkPerformance():
         print(f"Calculating performance report for {vfn.get()} {vln.get()}")
-        ## do the query
+        result = wrongPersonAdmitted(vfn, vln)
+        messagebox.showinfo("Performance Report",f"{vfn.get()} {vln.get()}\nSick Visitors Let In: {result}"
+                                                 f"\nVisitors Over Limit: {result}")
+
 
     master = tk.Tk()
     master.title("Employee Performance")

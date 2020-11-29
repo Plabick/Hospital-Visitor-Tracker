@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS patient (
 
 DROP TABLE IF EXISTS visitor ;
 CREATE TABLE IF NOT EXISTS visitor (
-  visitor_id INT NOT NULL,
+  visitor_id INT auto_increment,
   visitor_name VARCHAR(50) NOT NULL,
   PRIMARY KEY (visitor_id));
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS screener (
 
 DROP TABLE IF EXISTS visit ;
 CREATE TABLE IF NOT EXISTS visit (
-  visit_id INT NOT NULL,
+  visit_id INT auto_increment,
   patient_id INT NOT NULL,
   screener_id INT NOT NULL,
   visitor_id INT NOT NULL,
@@ -90,13 +90,17 @@ values
 (2, "Joe", "Mama", "inpatient", "none", false, "Shapiro", 411), -- normal patient
 (3, "Can't", "Smell", "inpatient", "airborne", false, "CWN", 523), -- No visitors due to airborne precautions
 (4, "No", "Limits", "inpatient", "none", true, "Tower", 723); -- No visitor limit due to EOL
+(5, "Jane", "Doe", "icu", "contact", true, "Hale", 247),
+(6, "John", "Doe", "outpatient", "none", true, "CWN", 133),
+(7, "Alice", "Doe", "er", "none", true, "Shapiro", 313),
+(8, "James", "Doe", "ob", "none", true, "Tower", 412);
 
 insert into visitor
-(visitor_id, visitor_name)
+( visitor_name)
 values
-(1,"Joe Mamma"),
-(2,"Sick Man"), -- shouldn't be allowed in to due answer
-(3,"Visit Again"); -- shouldn't be allowed in due to 2nd visitor of day for given patient
+("Joe Mamma"),
+("Sick Man"), -- shouldn't be allowed in to due answer
+("Visit Again"); -- shouldn't be allowed in due to 2nd visitor of day for given patient
 
  
  insert into visitor_has_answer
@@ -119,9 +123,14 @@ values
 (1,1,1,1,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true);
 
  -- Test query 
+
+
+
  select patient_building, patient_room from visit join visitor using (visitor_id) join patient using (patient_id) where visitor_name ="Joe Mamma";
  select visitor_name from visit join visitor using (visitor_id) join patient using (patient_id) where patient_first_name ="<tkinter.Entryobject.!entry3>" and patient_last_name ="<tkinter.Entryobject.!entry4>"; 
 
 select patient_first_name, patient_last_name from visit join visitor using (visitor_id) join patient using (patient_id) where visitor_name like "Joe Mamma"; 
 
-select patient_eol = true or patient_precaution="none" from patient where patient_first_name = "Joe" and patient_last_name = "Mamma";
+select patient_eol = true or patient_precaution = "none" from patient where patient_first_name = "Normal" and patient_last_name = "Dude";
+
+insert into visitor (visitor_name) values ("{vfn}  {vln}");

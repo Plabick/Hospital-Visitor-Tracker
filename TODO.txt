@@ -1,15 +1,7 @@
-To Do (as of 11/23/2020)
+To Do (as of 11/28/2020)
 
 1) Populate DB with information via insert statements in the setup file
 2) Write SQL queries for methods in dbUtils
-    - Check if visitor can visit (3 screening questions all have False as the answer)
-    - Add visitor to db
-    - Add visit to db
-    - select patient location given patient name
-    - select avg screening speed of a screener
-    - select num people let in by screener where canVisit == false and letIn = true
-3) Implement methods in dbUtils using the new queries as a base
-4) Make window methods spawn a popup box using the data from the dbUtil methods
-    -visitorWindow already done as a test
-5) (?) Remove question and visitor_has_answer tables from db? (it works fine without them)
-6) (?) Nicer UI?? I don't care but if anyone thinks we need it we can do it
+    - Correct querry for avg screening time
+
+
