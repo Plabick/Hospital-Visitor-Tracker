@@ -154,16 +154,6 @@ select patient_first_name, patient_last_name from visit join visitor using (visi
 
 select patient_eol = true or patient_precaution="none" from patient where patient_first_name = "Joe" and patient_last_name = "Mamma";
 
-select * from screener;
-select * from visitor;
-select * from patient;
-select * from visit;
 
-select NOW();
-
-select patient_building, patient_room from visit join visitor using (visitor_id) join patient
-using (patient_id);
-
-select * from visit join visitor using (visitor_id) join patient using (patient_id);
 
 
