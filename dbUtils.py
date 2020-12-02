@@ -34,8 +34,8 @@ def addVisitor(pfn, pln, vfn, vln, exposure, oos, symptoms, screener):
     print("VID: ", visitorID)
 
 
-    query = f"insert into visit(patient_id , screener_id , visitor_id, visit_date, visit_end, let_in)\
-     values (\"{patientID}\",1,\"{visitorID}\",CURTIME(),CURTIME(), true);"
+    query = f"insert into visit(patient_id , screener_id , visitor_id, visit_date, visit_start, visit_end, let_in)\
+     values (\"{patientID}\",1,\"{visitorID}\",CURDATE(),CURTIME(),CURTIME(), true);"
     mycursor.execute(query)
 
     return getDirections(vfn, vln)

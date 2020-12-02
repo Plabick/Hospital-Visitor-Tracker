@@ -8,16 +8,14 @@ def contractTrace():
     def contractTraceVisitor():
         print(f"contract tracing for visitor {vfn.get()} {vln.get()}")
         message = contactTraceVisitor(vfn.get(), vln.get())
-        messagebox.showinfo("Contract Tracing Report", f"The following people had contact with {pfn.get()} {pln.get()} "
+        messagebox.showinfo("Contract Tracing Report", f"The following people had contact with {vfn.get()} {vln.get()} "
                                                        f"in the last 14 days\n{message}")
 
     def contractTracePatient():
         print(f"Contract tracing for patient {pfn.get()} {pln.get()}")
         message = contactTracePatient(pfn.get(), pln.get())
-        messagebox.showinfo("Contract Tracing Report", f"The following people had contact with {vfn.get()} {vln.get()} "
-                                                       f"in the last 14 days\n{message}")
-
-
+        messagebox.showinfo("Contract Tracing Report", f"The following people had contact with {pfn.get()} {pln.get()} "
+                                                       f"in the last 14 days\n{message} {vfn.get()} {vln.get()}")
 
     master = tk.Tk()
     master.title("ContractTracing")
