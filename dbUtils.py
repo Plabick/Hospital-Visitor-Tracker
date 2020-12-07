@@ -108,8 +108,7 @@ def contactTraceVisitor(vfn, vln):
 def wrongPersonAdmitted(efn, eln):  # employee first name, last name
     # Return number of wrong visitors allowed in by a screener as a string (or "none")
     print("wrongPersonAdmitted called")
-    query = f"select TIME_FORMAT(TIME(AVG(SUBTIME(visit_end, visit_start))), \"%H:%i:%s\") from screener \
-      join visit using (screener_id) where screener_name = \"{efn} {eln}\""
+    query = f"select count(visit_id) from visit join screener using (screener_id) join visitor_has_answer using (visitor_id) join patient using (patient_id) where screener_name = \"{efn} {eln}\" and (patient.patient_precaution=\"airborne\" or patient.patient_classification=\"er\"or patient.patient_classification=\"outpatient\")and visit.let_in = true;"
 
     mycursor.execute(query)
     result = "999"
@@ -120,7 +119,13 @@ def wrongPersonAdmitted(efn, eln):  # employee first name, last name
 
 def avgTimeToScreen(efn, eln):  # employee first name, last name
     # return Avg time visitors spend in lobby connected to given screener
-    print("avgTimeToScreen called")
+    query = f"select TIME_FORMAT(TIME(AVG(SUBTIME(visit_end, visit_start))), \"%H:%i:%s\") from screener join visit using (screener_id) where screener_name = \"{efn} {eln}\""
+
+    mycursor.execute(query)
+    result = "999"
+    for (x) in mycursor:
+        result = f"{cleanString(repr(x))}\n"
+    return result
 
 
 # Utility method to clean the given query result into a string

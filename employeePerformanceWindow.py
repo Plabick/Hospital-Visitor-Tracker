@@ -1,15 +1,16 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from dbUtils import wrongPersonAdmitted
+from dbUtils import wrongPersonAdmitted, avgTimeToScreen
 
 
 def performanceReview():
     def checkPerformance():
         print(f"Calculating performance report for {vfn.get()} {vln.get()}")
-        result = wrongPersonAdmitted(vfn, vln)
-        messagebox.showinfo("Performance Report",f"{vfn.get()} {vln.get()}\nSick Visitors Let In: {result}"
-                                                 f"\nVisitors Over Limit: {result}")
+        result = wrongPersonAdmitted(vfn.get(), vln.get())
+        result2 = avgTimeToScreen(vfn.get(),vln.get())
+        messagebox.showinfo("Performance Report" ,f"{vfn.get()} {vln.get()}\nSick Visitors Let In: {result}"
+                                                 f"\nAverage Time To Screen: {result2}")
 
 
     master = tk.Tk()
