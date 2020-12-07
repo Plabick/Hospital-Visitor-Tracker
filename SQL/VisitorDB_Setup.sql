@@ -298,3 +298,41 @@ select patient_first_name, patient_last_name from visit join visitor using (visi
 select patient_eol = true or patient_precaution = "none" from patient where patient_first_name = "Normal" and patient_last_name = "Dude";
 
 insert into visitor (visitor_name) values ("{vfn}  {vln}");
+                                                
+-- trigger to codify visit rules                   
+DROP TRIGGER IF EXISTS codify_visit_rules;
+
+DELIMITER //
+
+CREATE TRIGGER codify_visit_rules
+	BEFORE UPDATE ON visit
+	FOR EACH ROW
+BEGIN   
+   -- if patient is allowed visitors
+   if (select patient_eol = true or patient_precaution = "none" 
+	from patient 
+	where patient_first_name = "{pfn}" 
+	and patient_last_name = "{pln}") 
+	-- if visitor answered no too all questioons
+    and 
+    (select visitor_answer 
+    from visitor_has_answer
+    join visitor using (visitor_id)
+    where visitor_id = new.visitor_id) = 0 
+    then 
+    -- add visitor to visit 
+    insert into visit values (
+    new.visit_id, new.patient_id, new.screener_id, 
+    new.visitor_id, new.visit_date, new.visit_start,
+    new.visit_end, 1);
+
+    else 
+    -- else throw an error
+    signal sqlstate 'HY000';
+    
+    
+  end if;
+    
+END //
+
+DELIMITER ;
