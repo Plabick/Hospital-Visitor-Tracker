@@ -280,12 +280,12 @@ values
  (6,DATE("2020-11-23"), 3, false);
 
 
-insert into visit
-(visit_id, patient_id , screener_id , visitor_id, visit_date, visit_start , visit_end, let_in)
-values
-(1,1,1,1,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true),
-(2,2,1,5,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true), -- EF Codd visit
-(3,9,2,6,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true); -- Paul Erdos Visit
+-- insert into visit
+-- (visit_id, patient_id , screener_id , visitor_id, visit_date, visit_start , visit_end, let_in)
+-- values
+-- (1,1,1,1,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true),
+-- (2,2,1,5,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true), -- EF Codd visit
+-- (3,9,2,6,DATE("2020-11-23"), time("01:30:00"),time("02:30:00"), true); -- Paul Erdos Visit
 
  -- Test query 
 
@@ -305,7 +305,7 @@ DROP TRIGGER IF EXISTS codify_visit_rules;
 DELIMITER //
 
 CREATE TRIGGER codify_visit_rules
-	BEFORE UPDATE ON visit
+	BEFORE INSERT on visit
 	FOR EACH ROW
 BEGIN   
    -- if patient is allowed visitors
@@ -314,11 +314,21 @@ BEGIN
 	where patient_first_name = "{pfn}" 
 	and patient_last_name = "{pln}") 
 	-- if visitor answered no too all questioons
-    and 
+    and not
     (select visitor_answer 
     from visitor_has_answer
     join visitor using (visitor_id)
-    where visitor_id = new.visitor_id) = 0 
+    where visitor_id = new.visitor_id and question_id = 0)  = 1 
+    and not
+    (select visitor_answer 
+    from visitor_has_answer
+    join visitor using (visitor_id)
+    where visitor_id = new.visitor_id and question_id = 1)  = 1 
+    and not
+    (select visitor_answer 
+    from visitor_has_answer
+    join visitor using (visitor_id)
+    where visitor_id = new.visitor_id and question_id = 2)  = 1 
     then 
     -- add visitor to visit 
     insert into visit values (
@@ -326,9 +336,9 @@ BEGIN
     new.visitor_id, new.visit_date, new.visit_start,
     new.visit_end, 1);
 
-    else 
+   -- else 
     -- else throw an error
-    signal sqlstate 'HY000';
+   -- signal sqlstate 'HY000';
     
     
   end if;
