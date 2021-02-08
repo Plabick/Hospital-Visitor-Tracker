@@ -5,7 +5,7 @@ import contractTracingWindow
 import employeePerformanceWindow
 
 window = Tk()
-window.title("BWH Visitor Screening Tool")
+window.title("Visitor Screening Tool")
 window.geometry('155x200')
 
 lbl = Label(window, text="Hello")
