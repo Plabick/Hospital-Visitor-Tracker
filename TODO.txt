@@ -1,7 +1,0 @@
-To Do (as of 11/28/2020)
-
-1) Populate DB with information via insert statements in the setup file
-2) Write SQL queries for methods in dbUtils
-    - Correct querry for avg screening time
-
-
